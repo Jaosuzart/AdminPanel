@@ -837,7 +837,7 @@ button {
 }
 
 .login-header p {
-  color: #d1d5db;
+  color: var(--color-text-secondary);
   font-size: 14px;
 }
 
@@ -861,7 +861,7 @@ button {
   display: block;
   font-size: 13px;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--color-text-secondary);
   margin-bottom: 8px;
 }
 
@@ -874,7 +874,7 @@ button {
   left: 14px;
   top: 50%;
   transform: translateY(-50%);
-  color: #ffffff;
+  color: var(--color-text-muted);
   opacity: 1;
 }
 
@@ -885,7 +885,7 @@ button {
   background: var(--color-bg-primary);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  color: #ffffff;
+  color: var(--color-text-primary);
   font-size: 14px;
   font-family: inherit;
   transition: all var(--transition-fast);
@@ -893,7 +893,7 @@ button {
 }
 
 .login-form .login-input-with-icon input::placeholder {
-  color: #d1d5db;
+  color: var(--color-text-muted);
   opacity: 1;
 }
 
@@ -902,7 +902,7 @@ button {
 .login-form .login-input-with-icon input:-webkit-autofill:focus, 
 .login-form .login-input-with-icon input:-webkit-autofill:active {
     -webkit-box-shadow: 0 0 0 30px var(--color-bg-primary) inset;
-    -webkit-text-fill-color: #ffffff;
+    -webkit-text-fill-color: var(--color-text-primary);
     transition: background-color 5000s ease-in-out 0s;
 }
 
