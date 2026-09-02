@@ -22,9 +22,10 @@ const distDir = path.join(__dirname, 'dist');
 app.use(cors());
 app.use(express.json());
 
-const db = new sqlite3.Database(path.join(__dirname, 'database.sqlite'), (err) => {
+const dbFile = process.env.VERCEL ? '/tmp/database.sqlite' : path.join(__dirname, 'database.sqlite');
+const db = new sqlite3.Database(dbFile, (err) => {
   if (err) logger.error('Erro ao conectar no banco de dados', err);
-  else logger.info('Conectado ao SQLite local');
+  else logger.info(`Conectado ao SQLite em ${dbFile}`);
 });
 
 db.serialize(() => {
@@ -89,12 +90,17 @@ app.post('/api/verify-2fa', (req, res) => {
   }
 });
 
-app.use(express.static(distDir));
+if (!process.env.VERCEL) {
+  app.use(express.static(distDir));
 
-app.use((req, res) => {
-  res.sendFile(path.join(distDir, 'index.html'));
-});
+  app.use((req, res) => {
+    res.sendFile(path.join(distDir, 'index.html'));
+  });
 
-app.listen(PORT, () => {
-  logger.info(`Servidor disponível em http://localhost:${PORT}`);
-});
+  app.listen(PORT, () => {
+    logger.info(`Servidor disponível em http://localhost:${PORT}`);
+  });
+}
+
+export default app;
+
