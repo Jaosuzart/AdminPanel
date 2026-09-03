@@ -14,10 +14,8 @@ const distDir = path.join(__dirname, 'dist');
 const PORT = process.env.PORT || 3333;
 
 if (!process.env.VERCEL) {
-  // Configuração para servir os arquivos estáticos do frontend gerado pelo Vite
   app.use(express.static(distDir));
 
-  // Catch-all route para o React Router lidar com a navegação no lado do cliente
   app.use('*', (req, res) => {
     res.sendFile(path.join(distDir, 'index.html'));
   });
