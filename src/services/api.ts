@@ -1,4 +1,4 @@
-export const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3333';
+export const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:3333');
 
 export async function apiLogin(email: string, password: string) {
   const response = await fetch(`${API_URL}/api/login`, {

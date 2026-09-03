@@ -16,7 +16,7 @@ const PORT = process.env.PORT || 3333;
 if (!process.env.VERCEL) {
   app.use(express.static(distDir));
 
-  app.use('*', (req, res) => {
+  app.get(/.*/, (req, res) => {
     res.sendFile(path.join(distDir, 'index.html'));
   });
 

@@ -17,10 +17,10 @@
   --color-accent-hover: #0000aa;
   --color-accent-glow: transparent;
 
-  --color-success: #005500;
-  --color-warning: #aa5500;
-  --color-danger: #aa0000;
-  --color-info: #0000aa;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+  --color-info: #3b82f6;
 
   --color-border: #000000;
   --color-border-light: #444444;
@@ -63,9 +63,10 @@
   --color-accent-hover: #ffcc00;
   --color-accent-glow: transparent;
   --color-accent-text: #000000;
+  --color-text-sidebar-active: #000000;
 
-  --color-border: #ffffff;
-  --color-border-light: #cccccc;
+  --color-border: #333333;
+  --color-border-light: #222222;
 
   --shadow-sm: none;
   --shadow-md: none;
@@ -942,7 +943,6 @@ button {
   animation-delay: 0.36s;
 }
 
-/* Acessibilidade: respeitar preferência do SO */
 @media (prefers-reduced-motion: reduce) {
 
   *,
