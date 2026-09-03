@@ -1,29 +1,29 @@
 :root {
   --font-primary: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
-  --color-bg-primary: #eef1f6;
+  --color-bg-primary: #ffffff;
   --color-bg-secondary: #ffffff;
-  --color-bg-sidebar: #0c1222;
+  --color-bg-sidebar: #000000;
   --color-bg-card: #ffffff;
-  --color-bg-glass: rgba(255, 255, 255, 0.72);
+  --color-bg-glass: #ffffff;
 
-  --color-text-primary: #0f172a;
-  --color-text-secondary: #374151;
-  --color-text-muted: #6b7280;
-  --color-text-sidebar: #d1d5db;
-  --color-text-sidebar-active: #ffffff;
+  --color-text-primary: #000000;
+  --color-text-secondary: #222222;
+  --color-text-muted: #444444;
+  --color-text-sidebar: #ffffff;
+  --color-text-sidebar-active: #ffff00;
 
-  --color-accent: #4f46e5;
-  --color-accent-hover: #4338ca;
-  --color-accent-glow: rgba(79, 70, 229, 0.3);
+  --color-accent: #0000ee;
+  --color-accent-hover: #0000aa;
+  --color-accent-glow: transparent;
 
-  --color-success: #34d399;
-  --color-warning: #fbbf24;
-  --color-danger: #f87171;
-  --color-info: #60a5fa;
+  --color-success: #005500;
+  --color-warning: #aa5500;
+  --color-danger: #aa0000;
+  --color-info: #0000aa;
 
-  --color-border: #dde3ec;
-  --color-border-light: #eef2f7;
+  --color-border: #000000;
+  --color-border-light: #444444;
 
   /* Shadows */
   --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
@@ -49,27 +49,27 @@
 }
 
 [data-theme='dark'] {
-  --color-bg-primary: #0a192f;
-  --color-bg-secondary: #112240;
-  --color-bg-sidebar: #020c1b;
-  --color-bg-card: #112240;
-  --color-bg-glass: rgba(17, 34, 64, 0.78);
+  --color-bg-primary: #000000;
+  --color-bg-secondary: #000000;
+  --color-bg-sidebar: #000000;
+  --color-bg-card: #000000;
+  --color-bg-glass: #000000;
 
-  --color-text-primary: #e6f1ff;
-  --color-text-secondary: #cbd5e1;
-  --color-text-muted: #94a3b8;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #e0e0e0;
+  --color-text-muted: #cccccc;
 
-  --color-accent: #facc15;
-  --color-accent-hover: #eab308;
-  --color-accent-glow: rgba(250, 204, 21, 0.2);
-  --color-accent-text: #020c1b;
+  --color-accent: #ffff00;
+  --color-accent-hover: #ffcc00;
+  --color-accent-glow: transparent;
+  --color-accent-text: #000000;
 
-  --color-border: #233554;
-  --color-border-light: #1e2d4a;
+  --color-border: #ffffff;
+  --color-border-light: #cccccc;
 
-  --shadow-sm: 0 1px 3px rgba(2, 12, 27, 0.4);
-  --shadow-md: 0 4px 16px rgba(2, 12, 27, 0.5);
-  --shadow-lg: 0 12px 40px rgba(2, 12, 27, 0.6);
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: none;
 }
 
 *,
@@ -96,18 +96,11 @@ body {
 }
 
 .main-content {
-  background:
-    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(129, 140, 248, 0.06), transparent),
-    radial-gradient(ellipse 60% 40% at 100% 100%, rgba(168, 85, 247, 0.04), transparent),
-    var(--color-bg-primary);
+  background: var(--color-bg-primary);
 }
 
 [data-theme='dark'] .main-content {
-  background:
-    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(129, 140, 248, 0.08), transparent),
-    radial-gradient(ellipse 60% 40% at 100% 100%, rgba(168, 85, 247, 0.06), transparent),
-    radial-gradient(ellipse 40% 60% at 0% 50%, rgba(59, 130, 246, 0.04), transparent),
-    var(--color-bg-primary);
+  background: var(--color-bg-primary);
 }
 
 a {
@@ -150,12 +143,12 @@ button {
   left: 0;
   bottom: 0;
   width: var(--sidebar-width);
-  background: linear-gradient(180deg, #0c1222 0%, #0a0f1e 40%, #080d1b 100%);
+  background: var(--color-bg-sidebar);
   display: flex;
   flex-direction: column;
   z-index: 100;
   transition: transform var(--transition-base), width var(--transition-base);
-  border-right: 1px solid rgba(129, 140, 248, 0.08);
+  border-right: 2px solid var(--color-border);
   will-change: transform;
   contain: layout style;
   transform: translateX(-100%);
@@ -232,7 +225,7 @@ button {
   gap: 12px;
   padding: 10px 12px;
   border-radius: var(--radius-sm);
-  color: #b4bfcc;
+  color: var(--color-text-sidebar);
   font-size: 14px;
   font-weight: 500;
   transition: all var(--transition-fast);
@@ -245,8 +238,8 @@ button {
 }
 
 .sidebar-link.active {
-  background: rgba(129, 140, 248, 0.15);
-  color: #a5b4fc;
+  background: var(--color-accent);
+  color: var(--color-text-sidebar-active);
 }
 
 .sidebar-link.active::before {
@@ -796,9 +789,7 @@ button {
   align-items: center;
   justify-content: center;
   background-color: var(--color-bg-primary);
-  background-image:
-    radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.15), transparent 25%),
-    radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.15), transparent 25%);
+  background-image: none;
   padding: 24px;
 }
 
