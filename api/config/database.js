@@ -44,11 +44,19 @@ export const initDB = async () => {
     const admin = await dbGet('SELECT * FROM users WHERE email = ?', ['admin@admin.com']);
     if (!admin) {
       const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash('admin', salt);
+      const hashedPassword = await bcrypt.hash('SenhaSegura123!', salt);
       await dbRun('INSERT INTO users (email, password, two_factor_secret) VALUES (?, ?, ?)',
         ['admin@admin.com', hashedPassword, process.env.TWO_FACTOR_MOCK_SECRET || 'DEFAULT_MOCK_SECRET']
       );
-      logger.info('Usuário padrão (admin@admin.com) criado com senha criptografada (bcrypt)');
+      logger.info('Usuário padrão (admin@admin.com) criado com nova senha segura');
+    } else {
+      const isWeakPassword = await bcrypt.compare('admin', admin.password);
+      if (isWeakPassword) {
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash('SenhaSegura123!', salt);
+        await dbRun('UPDATE users SET password = ? WHERE email = ?', [hashedPassword, 'admin@admin.com']);
+        logger.info('Senha antiga e fraca do admin foi atualizada para SenhaSegura123!');
+      }
     }
   } catch (error) {
     logger.error('Erro ao inicializar o banco de dados', error);

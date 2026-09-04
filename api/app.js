@@ -9,6 +9,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use((req, res, next) => {
+  console.log(`[Backend Log] Recebido: ${req.method} ${req.originalUrl}`);
+  next();
+});
+
 initDB();
 
 app.use('/api', authRoutes);

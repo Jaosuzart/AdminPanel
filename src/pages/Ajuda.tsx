@@ -20,14 +20,14 @@ export default memo(function Ajuda() {
         </p>
         
         <nav className="empty-state-actions">
-          <button className="btn-primary" onClick={() => toast.promise(new Promise(r => setTimeout(r, 1000)), { loading: 'Conectando ao suporte...', success: 'Equipe de suporte indisponível no momento.', error: 'Erro.' })}>
+          <a href="mailto:suporte@empresa.com" className="btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}>
             <MessageCircle size={18} />
             Falar com Suporte
-          </button>
-          <button className="btn-secondary" onClick={() => toast.info('Redirecionando para a central de documentação...')}>
+          </a>
+          <a href="https://react.dev" target="_blank" rel="noopener noreferrer" className="btn-secondary" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}>
             <BookOpen size={18} />
             Ver Documentação
-          </button>
+          </a>
         </nav>
       </section>
     </main>

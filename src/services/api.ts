@@ -1,4 +1,4 @@
-export const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://127.0.0.1:3333');
+export const API_URL = import.meta.env.VITE_API_URL || '';
 
 export async function apiLogin(email: string, password: string) {
   const response = await fetch(`${API_URL}/api/login`, {
@@ -7,7 +7,14 @@ export async function apiLogin(email: string, password: string) {
     body: JSON.stringify({ email, password })
   });
 
-  const data = await response.json();
+  let data;
+  const contentType = response.headers.get("content-type");
+  if (contentType && contentType.includes("application/json")) {
+    data = await response.json();
+  } else {
+    const text = await response.text();
+    throw new Error(`Erro no servidor (Status ${response.status}): ${text.substring(0, 50)}`);
+  }
 
   if (!response.ok) {
     throw new Error(data.error || 'Erro ao realizar login.');
