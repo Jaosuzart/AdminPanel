@@ -8,8 +8,8 @@ import '../styles.css';
 
 export default function Login() {
   const [step, setStep] = useState(1);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('admin@admin.com');
+  const [password, setPassword] = useState('SenhaSegura123!');
   const [code, setCode] = useState('');
   const [error, setError] = useState('');
   const [tempToken, setTempToken] = useState('');

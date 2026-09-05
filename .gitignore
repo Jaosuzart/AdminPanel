@@ -4,3 +4,4 @@ dist/
 database.sqlite
 
 .vercel
+firebase-service-account.json

@@ -1,64 +1,59 @@
-import sqlite3 from 'sqlite3';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { createClient } from '@supabase/supabase-js';
 import bcrypt from 'bcryptjs';
 import { logger } from '../utils/logger.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const supabaseUrl = process.env.VITE_SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-const dbFile = process.env.VERCEL ? '/tmp/database.sqlite' : path.join(__dirname, '..', '..', 'database.sqlite');
+let supabase = null;
+if (supabaseUrl && supabaseKey) {
+  supabase = createClient(supabaseUrl, supabaseKey);
+} else {
+  logger.warn('Faltam variáveis de ambiente do Supabase no .env');
+}
 
-export const db = new sqlite3.Database(dbFile, (err) => {
-  if (err) logger.error('Erro ao conectar no banco de dados', err);
-  else logger.info(`Conectado ao SQLite em ${dbFile}`);
-});
-
-export const dbRun = (sql, params = []) => {
-  return new Promise((resolve, reject) => {
-    db.run(sql, params, function (err) {
-      if (err) reject(err);
-      else resolve(this);
-    });
-  });
-};
-
-export const dbGet = (sql, params = []) => {
-  return new Promise((resolve, reject) => {
-    db.get(sql, params, (err, row) => {
-      if (err) reject(err);
-      else resolve(row);
-    });
-  });
-};
+export const db = supabase;
 
 export const initDB = async () => {
+  if (!db) {
+    logger.warn('Database (Supabase) não inicializado. initDB cancelado.');
+    return;
+  }
+  
   try {
-    await dbRun(`CREATE TABLE IF NOT EXISTS users (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      email TEXT UNIQUE,
-      password TEXT,
-      two_factor_secret TEXT
-    )`);
-
-    const admin = await dbGet('SELECT * FROM users WHERE email = ?', ['admin@admin.com']);
-    if (!admin) {
+    const { data: users, error } = await db
+      .from('users')
+      .select('*')
+      .eq('email', 'admin@admin.com');
+      
+    if (error) throw error;
+    
+    if (!users || users.length === 0) {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash('SenhaSegura123!', salt);
-      await dbRun('INSERT INTO users (email, password, two_factor_secret) VALUES (?, ?, ?)',
-        ['admin@admin.com', hashedPassword, process.env.TWO_FACTOR_MOCK_SECRET || 'DEFAULT_MOCK_SECRET']
-      );
-      logger.info('Usuário padrão (admin@admin.com) criado com nova senha segura');
+      
+      const { error: insertError } = await db.from('users').insert([{
+        email: 'admin@admin.com',
+        password: hashedPassword,
+        two_factor_secret: process.env.TWO_FACTOR_MOCK_SECRET || 'DEFAULT_MOCK_SECRET',
+      }]);
+      
+      if (insertError) throw insertError;
+      logger.info('Usuário padrão (admin@admin.com) criado com nova senha segura no Supabase');
     } else {
-      const isWeakPassword = await bcrypt.compare('admin', admin.password);
+      const adminUser = users[0];
+      const isWeakPassword = await bcrypt.compare('admin', adminUser.password);
+      
       if (isWeakPassword) {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash('SenhaSegura123!', salt);
-        await dbRun('UPDATE users SET password = ? WHERE email = ?', [hashedPassword, 'admin@admin.com']);
+        await db.from('users').update({ password: hashedPassword }).eq('id', adminUser.id);
         logger.info('Senha antiga e fraca do admin foi atualizada para SenhaSegura123!');
       }
     }
   } catch (error) {
-    logger.error('Erro ao inicializar o banco de dados', error);
+    logger.error('Erro ao inicializar o banco de dados (Supabase)', error);
   }
 };
