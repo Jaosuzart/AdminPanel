@@ -35,10 +35,26 @@ export function AuthProvider({ children }: AuthProviderProps) {
   };
 
   useEffect(() => {
-    const authStatus = getCookie('adminAuth');
+    let authStatus = getCookie('adminAuth');
+    let lastAcc = getCookie('adminLastAccess');
+
+    // Migração: Se não tem cookie mas tem no localStorage, migra os dados
+    if (!authStatus && localStorage.getItem('adminAuth') === 'true') {
+      authStatus = 'true';
+      lastAcc = localStorage.getItem('adminLastAccess');
+      setCookie('adminAuth', 'true');
+      if (lastAcc) setCookie('adminLastAccess', lastAcc);
+      localStorage.removeItem('adminAuth');
+      localStorage.removeItem('adminLastAccess');
+    }
+
     if (authStatus === 'true') {
       setIsAuthenticated(true);
-      setLastAccess(getCookie('adminLastAccess'));
+      if (!lastAcc) {
+        lastAcc = new Date().toISOString();
+        setCookie('adminLastAccess', lastAcc);
+      }
+      setLastAccess(lastAcc);
     }
     setLoading(false);
   }, []);

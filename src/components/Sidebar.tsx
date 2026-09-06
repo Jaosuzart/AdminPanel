@@ -47,7 +47,7 @@ const Sidebar = memo(function Sidebar({ isOpen, onClose }: SidebarProps) {
   const navigate = useNavigate();
 
   const formatLastAccess = (dateString: string | null) => {
-    if (!dateString) return 'Hoje, 08:30';
+    if (!dateString) return 'Acesso recente';
     const date = new Date(dateString);
     const now = new Date();
     const isToday = date.getDate() === now.getDate() && date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear();
@@ -72,7 +72,6 @@ const Sidebar = memo(function Sidebar({ isOpen, onClose }: SidebarProps) {
       role="navigation"
       aria-label="Menu principal"
     >
-      {/* Brand */}
       <div className="sidebar-brand">
         <img src={logo} alt="Admin Logo" className="sidebar-brand-icon" style={{ width: '32px', height: '32px', borderRadius: '8px', objectFit: 'cover' }} />
         <div className="sidebar-brand-text">
@@ -81,7 +80,6 @@ const Sidebar = memo(function Sidebar({ isOpen, onClose }: SidebarProps) {
         </div>
       </div>
 
-      {/* Navigation */}
       <nav className="sidebar-nav" aria-label="Navegação lateral">
         <span className="sidebar-section-label" id="nav-main-label">Menu Principal</span>
         <ul role="list" aria-labelledby="nav-main-label" style={{ listStyle: 'none', padding: 0, margin: 0, display: 'contents' }}>
