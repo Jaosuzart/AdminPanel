@@ -8,8 +8,8 @@ import '../styles.css';
 
 export default function Login() {
   const [step, setStep] = useState(1);
-  const [email, setEmail] = useState('admin@admin.com');
-  const [password, setPassword] = useState('SenhaSegura123!');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [code, setCode] = useState('');
   const [error, setError] = useState('');
   const [tempToken, setTempToken] = useState('');
@@ -62,17 +62,18 @@ export default function Login() {
         {error && <div className="login-error-msg">{error}</div>}
 
         {step === 1 ? (
-          <form onSubmit={handleLoginSubmit} className="login-form">
+          <form onSubmit={handleLoginSubmit} className="login-form" autoComplete="off">
             <div className="login-form-group">
               <label htmlFor="email">Email</label>
               <div className="login-input-with-icon">
                 <Mail size={18} className="login-input-icon" />
                 <input 
                   id="email"
-                  type="email" 
+                  type="email"
+                  autoComplete="off"
                   value={email} 
                   onChange={e => setEmail(e.target.value)} 
-                  placeholder="admin@admin.com" 
+                  placeholder="Digite seu e-mail" 
                   required 
                 />
               </div>
@@ -83,10 +84,11 @@ export default function Login() {
                 <Lock size={18} className="login-input-icon" />
                 <input 
                   id="password"
-                  type="password" 
+                  type="password"
+                  autoComplete="new-password"
                   value={password} 
                   onChange={e => setPassword(e.target.value)} 
-                  placeholder="SenhaSegura123!" 
+                  placeholder="Sua senha segura" 
                   required 
                 />
               </div>

@@ -2,16 +2,36 @@ import { memo, useState } from 'react';
 import { User, Shield, Bell, Palette, ShieldCheck, Check, Camera } from 'lucide-react';
 import { toast } from 'sonner';
 import { useTheme } from '../contexts/ThemeContext';
+import { apiGenerate2FA } from '../services/api';
 
 export default memo(function Configuracoes() {
   const [activeTab, setActiveTab] = useState('perfil');
   const { theme, toggleTheme } = useTheme();
+  const [show2FA, setShow2FA] = useState(false);
+  const [qrCodeData, setQrCodeData] = useState<string | null>(null);
+  const [secret, setSecret] = useState<string | null>(null);
+  const [isLoading2FA, setIsLoading2FA] = useState(false);
 
   const [notifications, setNotifications] = useState({
     email: true,
     push: false,
     sms: false
   });
+
+  const handleEnable2FA = async () => {
+    try {
+      setIsLoading2FA(true);
+      const data = await apiGenerate2FA('admin@admin.com'); // Usando email fixo ou dinâmico
+      setQrCodeData(data.qrcode);
+      setSecret(data.secret);
+      setShow2FA(true);
+      toast.success('QR Code gerado. Escaneie com seu app.');
+    } catch (err: any) {
+      toast.error(err.message || 'Erro ao gerar 2FA.');
+    } finally {
+      setIsLoading2FA(false);
+    }
+  };
 
   const handleSave = () => {
     toast.success('Configurações salvas com sucesso!');
@@ -98,7 +118,20 @@ export default memo(function Configuracoes() {
                   <span className="settings-switch-title">Aplicativo Autenticador</span>
                   <span className="settings-switch-desc">Use um app como Google Authenticator para gerar códigos.</span>
                 </div>
-                <div className="toggle-switch" onClick={() => toast.info('Configuração de 2FA em breve!')} />
+                <div>
+                  {!show2FA ? (
+                    <button className="btn-secondary" onClick={handleEnable2FA} disabled={isLoading2FA}>
+                      {isLoading2FA ? 'Gerando...' : 'Ativar 2FA'}
+                    </button>
+                  ) : (
+                    <div style={{ marginTop: '16px', background: 'var(--color-surface)', padding: '16px', borderRadius: '8px', border: '1px solid var(--color-border)' }}>
+                        <p style={{marginBottom: '10px'}}>Escaneie este QR Code no Google Authenticator:</p>
+                        {qrCodeData && <img src={qrCodeData} alt="QR Code 2FA" style={{width: '200px', height: '200px', borderRadius: '4px'}} />}
+                        <p style={{marginTop: '10px', fontSize: '12px', wordBreak: 'break-all'}}>Ou use o código manual: <strong>{secret}</strong></p>
+                        <p style={{marginTop: '10px', fontSize: '12px', color: 'var(--color-text-muted)'}}>O código foi gravado. Ao refazer o login, você deverá informá-lo.</p>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -275,3 +308,4 @@ export default memo(function Configuracoes() {
     </main>
   );
 });
+

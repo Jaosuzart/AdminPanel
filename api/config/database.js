@@ -32,7 +32,7 @@ export const initDB = async () => {
     
     if (!users || users.length === 0) {
       const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash('SenhaSegura123!', salt);
+      const hashedPassword = await bcrypt.hash('admin', salt);
       
       const { error: insertError } = await db.from('users').insert([{
         email: 'admin@admin.com',
@@ -41,17 +41,9 @@ export const initDB = async () => {
       }]);
       
       if (insertError) throw insertError;
-      logger.info('Usuário padrão (admin@admin.com) criado com nova senha segura no Supabase');
+      logger.info('Usuário padrão (admin@admin.com) criado no Supabase');
     } else {
-      const adminUser = users[0];
-      const isWeakPassword = await bcrypt.compare('admin', adminUser.password);
-      
-      if (isWeakPassword) {
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash('SenhaSegura123!', salt);
-        await db.from('users').update({ password: hashedPassword }).eq('id', adminUser.id);
-        logger.info('Senha antiga e fraca do admin foi atualizada para SenhaSegura123!');
-      }
+      logger.info('Usuário admin encontrado no Supabase.');
     }
   } catch (error) {
     logger.error('Erro ao inicializar o banco de dados (Supabase)', error);

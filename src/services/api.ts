@@ -33,8 +33,22 @@ export async function apiVerify2FA(code: string, tempToken: string) {
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.error || 'Erro ao validar código.');
+    throw new Error(data.error || 'Erro ao validar codigo.');
   }
 
+  return data;
+}
+
+export async function apiGenerate2FA(email: string) {
+  const response = await fetch(`${API_URL}/api/generate-2fa`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email })
+  });
+
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.error || 'Erro ao gerar QR Code.');
+  }
   return data;
 }
