@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { ShieldCheck, Mail, Lock, Key } from 'lucide-react';
-import logo from '../assets/admin_panel_logo.jpg';
+import logo from '../assets/admin_panel_logo.webp';
 import { apiLogin, apiVerify2FA } from '../services/api';
 import '../styles.css';
 

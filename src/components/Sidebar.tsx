@@ -13,7 +13,7 @@ import {
   type LucideIcon,
 } from 'lucide-react';
 
-import logo from '../assets/admin_panel_logo.jpg';
+import logo from '../assets/admin_panel_logo.webp';
 
 interface NavItem {
   id: string;
