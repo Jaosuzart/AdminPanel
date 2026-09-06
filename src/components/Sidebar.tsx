@@ -43,8 +43,17 @@ interface SidebarProps {
 const Sidebar = memo(function Sidebar({ isOpen, onClose }: SidebarProps) {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const profileRef = useRef<HTMLDivElement>(null);
-  const { logout } = useAuth();
+  const { logout, lastAccess } = useAuth();
   const navigate = useNavigate();
+
+  const formatLastAccess = (dateString: string | null) => {
+    if (!dateString) return 'Hoje, 08:30';
+    const date = new Date(dateString);
+    const now = new Date();
+    const isToday = date.getDate() === now.getDate() && date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear();
+    const time = date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    return isToday ? `Hoje, ${time}` : `${date.toLocaleDateString('pt-BR')} às ${time}`;
+  };
 
   useEffect(() => {
     function handleClickOutside(event: Event) {
@@ -131,7 +140,7 @@ const Sidebar = memo(function Sidebar({ isOpen, onClose }: SidebarProps) {
               <div style={{ padding: '16px', borderBottom: '1px solid var(--color-border)' }}>
                 <p style={{ margin: 0, fontWeight: 600, fontSize: '14px', color: 'var(--color-text-primary)' }}>Dados do Perfil</p>
                 <p style={{ margin: 0, fontSize: '12px', color: 'var(--color-text-muted)' }}>joao.marcelo@admin.com</p>
-                <p style={{ margin: '4px 0 0 0', fontSize: '12px', color: 'var(--color-text-muted)' }}>Último acesso: Hoje, 08:30</p>
+                <p style={{ margin: '4px 0 0 0', fontSize: '12px', color: 'var(--color-text-muted)' }}>Último acesso: {formatLastAccess(lastAccess)}</p>
               </div>
               <div style={{ padding: '8px' }}>
                 <button
