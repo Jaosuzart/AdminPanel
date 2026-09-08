@@ -429,7 +429,7 @@ button {
 }
 
 .header-search-input::placeholder {
-  color: #6b7280;
+  color: var(--color-text-muted);
 }
 
 .header-search-input:focus {
@@ -442,7 +442,7 @@ button {
   left: 12px;
   top: 50%;
   transform: translateY(-50%);
-  color: #6b7280;
+  color: var(--color-text-muted);
   width: 18px;
   height: 18px;
   pointer-events: none;
