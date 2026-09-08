@@ -1,6 +1,6 @@
 import { memo, useCallback, useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, Bell, Menu, Moon, Sun, User, LogOut, Check } from 'lucide-react';
+import { Search, Bell, List as Menu, MoonFill as Moon, SunFill as Sun, Person as User, BoxArrowRight as LogOut, Check } from 'react-bootstrap-icons';
 import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
 import { toast } from 'sonner';
@@ -130,10 +130,21 @@ const Header = memo(function Header({ onMenuToggle }: HeaderProps) {
                     <div 
                       key={notif.id} 
                       className={`notification-item ${notif.unread ? 'unread' : ''}`}
+                      role="button"
+                      tabIndex={0}
+                      aria-label={`${notif.text} — ${notif.time}`}
                       onClick={() => {
                         setNotifications(notifications.map(n => n.id === notif.id ? { ...n, unread: false } : n));
                         navigate(notif.text.includes('pedido') ? '/pedidos' : '/dashboard');
                         setIsNotificationsOpen(false);
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          setNotifications(notifications.map(n => n.id === notif.id ? { ...n, unread: false } : n));
+                          navigate(notif.text.includes('pedido') ? '/pedidos' : '/dashboard');
+                          setIsNotificationsOpen(false);
+                        }
                       }}
                     >
                       <span className="notification-text">{notif.text}</span>
@@ -142,8 +153,8 @@ const Header = memo(function Header({ onMenuToggle }: HeaderProps) {
                   ))
                 )}
               </div>
-              <div className="header-dropdown-header" style={{ textAlign: 'center', borderTop: '1px solid var(--color-border)', borderBottom: 'none' }}>
-                <button onClick={() => { setIsNotificationsOpen(false); navigate('/configuracoes'); }} style={{ fontSize: '13px', color: 'var(--color-text-primary)', fontWeight: 500, width: '100%', background: 'none', border: 'none', cursor: 'pointer' }}>
+              <div className="header-dropdown-header text-center border-t border-b-none">
+                <button onClick={() => { setIsNotificationsOpen(false); navigate('/configuracoes'); }} className="text-sm text-primary font-medium w-full bg-none border-none cursor-pointer">
                   Ver todas as notificações
                 </button>
               </div>

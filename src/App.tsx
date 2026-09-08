@@ -16,10 +16,10 @@ function DashboardSkeleton() {
   return (
     <div className="dashboard-skeleton" role="status" aria-label="Carregando dashboard">
       <div className="skeleton-greeting">
-        <div className="skeleton-line" style={{ width: '45%', height: 28 }} />
-        <div className="skeleton-line" style={{ width: '60%', height: 16, marginTop: 8 }} />
+        <div className="skeleton-line w-45 h-7" />
+        <div className="skeleton-line w-60 h-4 mt-2" />
       </div>
-      <div className="metrics-grid" style={{ marginTop: 32 }}>
+      <div className="metrics-grid mt-8">
         {[1, 2, 3, 4].map(i => (
           <div key={i} className="skeleton-card" />
         ))}

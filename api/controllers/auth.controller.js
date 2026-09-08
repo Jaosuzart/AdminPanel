@@ -97,3 +97,29 @@ export const generate2FA = async (req, res, next) => {
     });
   } catch (error) { next(error); }
 };
+
+export const updatePassword = async (req, res, next) => {
+  if (!db) return res.status(500).json({ error: 'Banco de dados nao configurado.' });
+  try {
+    const { email, currentPassword, newPassword } = req.body;
+    
+    if (!email || !currentPassword || !newPassword) {
+      return res.status(400).json({ error: 'Todos os campos sao obrigatorios.' });
+    }
+
+    const { data: users, error } = await db.from('users').select('*').eq('email', email).limit(1);
+    if (error) throw error;
+    if (!users || users.length === 0) return res.status(401).json({ error: 'Usuario nao encontrado.' });
+
+    const user = users[0];
+    const isValidPassword = await bcrypt.compare(currentPassword, user.password);
+    if (!isValidPassword) return res.status(401).json({ error: 'A senha atual esta incorreta.' });
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    const { error: updateError } = await db.from('users').update({ password: hashedPassword }).eq('email', email);
+    
+    if (updateError) throw updateError;
+
+    return res.json({ success: true, message: 'Senha atualizada com sucesso!' });
+  } catch (error) { next(error); }
+};

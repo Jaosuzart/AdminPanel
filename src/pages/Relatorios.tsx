@@ -8,7 +8,7 @@ export default memo(function Relatorios() {
         <h1>Relatórios Detalhados</h1>
         <p>Análise profunda das métricas de desempenho.</p>
       </header>
-      <section className="charts-grid" style={{ contentVisibility: 'visible' }}>
+      <section className="charts-grid content-visible">
         <SalesChart />
         <ClientsChart />
       </section>

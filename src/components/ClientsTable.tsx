@@ -7,7 +7,7 @@ const clients = [
     name: 'Ana Silva',
     email: 'ana.silva@email.com',
     initials: 'AS',
-    color: '#6366f1',
+    color: '#4338ca',
     lastPurchase: '05/08/2026',
     total: 'R$ 12.340',
     status: 'Ativo',
@@ -18,7 +18,7 @@ const clients = [
     name: 'Carlos Oliveira',
     email: 'carlos.o@email.com',
     initials: 'CO',
-    color: '#a855f7',
+    color: '#7e22ce',
     lastPurchase: '02/08/2026',
     total: 'R$ 8.920',
     status: 'Ativo',
@@ -29,7 +29,7 @@ const clients = [
     name: 'Mariana Costa',
     email: 'mari.costa@email.com',
     initials: 'MC',
-    color: '#f43f5e',
+    color: '#be123c',
     lastPurchase: '28/07/2026',
     total: 'R$ 5.410',
     status: 'Inativo',
@@ -40,7 +40,7 @@ const clients = [
     name: 'Pedro Santos',
     email: 'pedro.s@email.com',
     initials: 'PS',
-    color: '#10b981',
+    color: '#047857',
     lastPurchase: '15/07/2026',
     total: 'R$ 3.200',
     status: 'Ativo',
@@ -51,7 +51,7 @@ const clients = [
     name: 'Juliana Mendes',
     email: 'ju.mendes@email.com',
     initials: 'JM',
-    color: '#f59e0b',
+    color: '#92400e',
     lastPurchase: '10/07/2026',
     total: 'R$ 15.700',
     status: 'Ativo',
@@ -71,7 +71,7 @@ const ClientsTable = memo(function ClientsTable() {
           <span className="table-card-count">{clients.length} clientes</span>
         </div>
       </div>
-      <div style={{ overflowX: 'auto' }}>
+      <div className="overflow-x-auto">
         <table className="data-table">
           <caption className="sr-only">Lista completa de clientes com ID, última compra, total gasto e status</caption>
           <thead>
@@ -100,7 +100,7 @@ const ClientsTable = memo(function ClientsTable() {
               >
                 <td>
                   <div className="table-customer">
-                    <div className="table-customer-avatar" style={{ background: client.color }} aria-hidden="true">
+                    <div className="table-customer-avatar" style={{ background: client.color }}>
                       {client.initials}
                     </div>
                     <div className="table-customer-info">
@@ -110,9 +110,9 @@ const ClientsTable = memo(function ClientsTable() {
                   </div>
                 </td>
                 <td>
-                  <code style={{ fontSize: '13px', color: 'var(--color-text-muted)' }}>{client.id}</code>
+                  <code className="text-sm text-muted">{client.id}</code>
                 </td>
-                <td style={{ color: 'var(--color-text-secondary)', fontSize: '13px' }}>
+                <td className="text-secondary text-sm">
                   <time>{client.lastPurchase}</time>
                 </td>
                 <td>

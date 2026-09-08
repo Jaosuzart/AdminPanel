@@ -7,7 +7,7 @@ const sales = [
     name: 'Ana Silva',
     email: 'ana.silva@email.com',
     initials: 'AS',
-    color: '#6366f1',
+    color: '#4338ca',
     amount: 'R$ 4.280',
     status: 'Concluído',
     statusType: 'success',
@@ -18,7 +18,7 @@ const sales = [
     name: 'Carlos Oliveira',
     email: 'carlos.o@email.com',
     initials: 'CO',
-    color: '#a855f7',
+    color: '#7e22ce',
     amount: 'R$ 3.920',
     status: 'Concluído',
     statusType: 'success',
@@ -29,7 +29,7 @@ const sales = [
     name: 'Mariana Costa',
     email: 'mari.costa@email.com',
     initials: 'MC',
-    color: '#f43f5e',
+    color: '#be123c',
     amount: 'R$ 3.410',
     status: 'Revisão',
     statusType: 'warning',
@@ -40,7 +40,7 @@ const sales = [
     name: 'Pedro Santos',
     email: 'pedro.s@email.com',
     initials: 'PS',
-    color: '#10b981',
+    color: '#047857',
     amount: 'R$ 2.750',
     status: 'Pendente',
     statusType: 'pending',
@@ -51,7 +51,7 @@ const sales = [
     name: 'Juliana Mendes',
     email: 'ju.mendes@email.com',
     initials: 'JM',
-    color: '#f59e0b',
+    color: '#92400e',
     amount: 'R$ 5.100',
     status: 'Concluído',
     statusType: 'success',
@@ -71,7 +71,7 @@ const RecentSales = memo(function RecentSales() {
           <span className="table-card-count">{sales.length} transações</span>
         </div>
       </div>
-      <div style={{ overflowX: 'auto' }}>
+      <div className="overflow-x-auto">
         <table className="data-table">
           <caption className="sr-only">Lista das vendas mais recentes com cliente, pedido, data, valor e status</caption>
           <thead>
@@ -100,7 +100,7 @@ const RecentSales = memo(function RecentSales() {
               >
                 <td>
                   <div className="table-customer">
-                    <div className="table-customer-avatar" style={{ background: sale.color }} aria-hidden="true">
+                    <div className="table-customer-avatar" style={{ background: sale.color }}>
                       {sale.initials}
                     </div>
                     <div className="table-customer-info">
@@ -110,9 +110,9 @@ const RecentSales = memo(function RecentSales() {
                   </div>
                 </td>
                 <td>
-                  <code style={{ fontSize: '13px', color: 'var(--color-text-muted)' }}>{sale.id}</code>
+                  <code className="text-sm text-muted">{sale.id}</code>
                 </td>
-                <td style={{ color: 'var(--color-text-secondary)', fontSize: '13px' }}>
+                <td className="text-secondary text-sm">
                   <time>{sale.date}</time>
                 </td>
                 <td>

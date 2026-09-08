@@ -32,7 +32,7 @@ export const initDB = async () => {
     
     if (!users || users.length === 0) {
       const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash('admin', salt);
+      const hashedPassword = await bcrypt.hash('SenhaSegura123!', salt);
       
       const { error: insertError } = await db.from('users').insert([{
         email: 'admin@admin.com',

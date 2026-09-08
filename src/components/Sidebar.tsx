@@ -2,23 +2,24 @@ import { memo, useState, useRef, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import {
-  LayoutDashboard,
-  ShoppingCart,
-  Users,
-  BarChart3,
-  Settings,
-  HelpCircle,
-  LogOut,
-  User,
-  type LucideIcon,
-} from 'lucide-react';
+  ColumnsGap as LayoutDashboard,
+  Cart as ShoppingCart,
+  People as Users,
+  BarChart as BarChart3,
+  Gear as Settings,
+  QuestionCircle as HelpCircle,
+  BoxArrowRight as LogOut,
+  Person as User,
+  XLg as X,
+} from 'react-bootstrap-icons';
+import type { ComponentType } from 'react';
 
-import logo from '../assets/admin_panel_logo.webp';
+import logo from '../assets/new_admin_logo.webp';
 
 interface NavItem {
   id: string;
   label: string;
-  icon: LucideIcon;
+  icon: ComponentType<any>;
   badge?: number;
 }
 
@@ -67,22 +68,29 @@ const Sidebar = memo(function Sidebar({ isOpen, onClose }: SidebarProps) {
 
 
   return (
-    <aside
+    <nav
       className={`sidebar ${isOpen ? 'open' : ''}`}
-      role="navigation"
       aria-label="Menu principal"
     >
       <div className="sidebar-brand">
-        <img src={logo} alt="Admin Logo" className="sidebar-brand-icon" style={{ width: '32px', height: '32px', borderRadius: '8px', objectFit: 'cover' }} />
+        <img src={logo} alt="AdminPanel Logo" width={32} height={32} className="sidebar-brand-icon w-8 h-8 rounded-md-custom object-cover" />
         <div className="sidebar-brand-text">
           <span className="sidebar-brand-name">AdminPanel</span>
           <span className="sidebar-brand-badge">Enterprise</span>
         </div>
+        <button
+          className="sidebar-close-btn"
+          onClick={onClose}
+          aria-label="Fechar menu"
+          type="button"
+        >
+          <X size={20} aria-hidden="true" />
+        </button>
       </div>
 
       <nav className="sidebar-nav" aria-label="Navegação lateral">
         <span className="sidebar-section-label" id="nav-main-label">Menu Principal</span>
-        <ul role="list" aria-labelledby="nav-main-label" style={{ listStyle: 'none', padding: 0, margin: 0, display: 'contents' }}>
+        <ul role="list" aria-labelledby="nav-main-label" className="list-none p-0 m-0 contents-disp">
           {navItems.map(item => (
             <li key={item.id}>
               <NavLink
@@ -103,7 +111,7 @@ const Sidebar = memo(function Sidebar({ isOpen, onClose }: SidebarProps) {
         </ul>
 
         <span className="sidebar-section-label" id="nav-system-label">Sistema</span>
-        <ul role="list" aria-labelledby="nav-system-label" style={{ listStyle: 'none', padding: 0, margin: 0, display: 'contents' }}>
+        <ul role="list" aria-labelledby="nav-system-label" className="list-none p-0 m-0 contents-disp">
           {bottomItems.map(item => (
             <li key={item.id}>
               <NavLink
@@ -120,11 +128,20 @@ const Sidebar = memo(function Sidebar({ isOpen, onClose }: SidebarProps) {
       </nav>
 
 
-        <div className="sidebar-footer" ref={profileRef} style={{ position: 'relative' }}>
+        <div className="sidebar-footer" ref={profileRef}>
           <div
-            className="sidebar-user"
-            style={{ cursor: 'pointer', background: isProfileOpen ? 'rgba(129, 140, 248, 0.08)' : 'transparent' }}
+            className={`sidebar-user ${isProfileOpen ? 'active' : ''}`}
             onClick={() => setIsProfileOpen(!isProfileOpen)}
+            role="button"
+            tabIndex={0}
+            aria-expanded={isProfileOpen}
+            aria-label="Menu do perfil — João Marcelo"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                setIsProfileOpen(!isProfileOpen);
+              }
+            }}
           >
             <div className="sidebar-avatar" aria-hidden="true">JM</div>
             <div className="sidebar-user-info">
@@ -134,36 +151,32 @@ const Sidebar = memo(function Sidebar({ isOpen, onClose }: SidebarProps) {
           </div>
 
           {isProfileOpen && (
-            <div style={{ position: 'absolute', bottom: 'calc(100% + 8px)', left: '12px', width: 'calc(100% - 24px)', background: 'var(--color-bg-card)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-md)', boxShadow: 'var(--shadow-lg)', zIndex: 100, overflow: 'hidden' }}>
-              <div style={{ padding: '16px', borderBottom: '1px solid var(--color-border)' }}>
-                <p style={{ margin: 0, fontWeight: 600, fontSize: '14px', color: 'var(--color-text-primary)' }}>Dados do Perfil</p>
-                <p style={{ margin: 0, fontSize: '12px', color: 'var(--color-text-muted)' }}>joao.marcelo@admin.com</p>
-                <p style={{ margin: '4px 0 0 0', fontSize: '12px', color: 'var(--color-text-muted)' }}>Último acesso: {formatLastAccess(lastAccess)}</p>
+            <div className="sidebar-profile-menu">
+              <div className="header-dropdown-header">
+                <p className="header-dropdown-title">Dados do Perfil</p>
+                <p className="header-dropdown-subtitle">joao.marcelo@admin.com</p>
+                <p className="header-dropdown-subtitle">Último acesso: {formatLastAccess(lastAccess)}</p>
               </div>
-              <div style={{ padding: '8px' }}>
+              <div className="header-dropdown-body padding-sm">
                 <button
-                  style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 12px', borderRadius: 'var(--radius-sm)', color: 'var(--color-text-secondary)', transition: 'background 0.2s' }}
+                  className="dropdown-menu-item"
                   onClick={() => { setIsProfileOpen(false); navigate('/configuracoes'); }}
-                  onMouseEnter={(e) => e.currentTarget.style.background = 'var(--color-bg-primary)'}
-                  onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
                 >
                   <User size={16} />
-                  <span style={{ fontSize: '14px', fontWeight: 500 }}>Meus Dados</span>
+                  <span>Meus Dados</span>
                 </button>
                 <button
-                  style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 12px', borderRadius: 'var(--radius-sm)', color: 'var(--color-danger)', transition: 'background 0.2s', marginTop: '4px' }}
+                  className="dropdown-menu-item danger"
                   onClick={() => { setIsProfileOpen(false); logout(); }}
-                  onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(239, 68, 68, 0.1)'}
-                  onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
                 >
                   <LogOut size={16} />
-                  <span style={{ fontSize: '14px', fontWeight: 500 }}>Sair da Conta</span>
+                  <span>Sair da Conta</span>
                 </button>
               </div>
             </div>
           )}
         </div>
-    </aside>
+    </nav>
   );
 });
 

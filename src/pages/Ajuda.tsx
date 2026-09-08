@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { BookOpen, HelpCircle, MessageCircle } from 'lucide-react';
+import { Book as BookOpen, QuestionCircle as HelpCircle, Chat as MessageCircle } from 'react-bootstrap-icons';
 import { toast } from 'sonner';
 
 export default memo(function Ajuda() {
@@ -20,14 +20,20 @@ export default memo(function Ajuda() {
         </p>
         
         <nav className="empty-state-actions">
-          <a href="mailto:suporte@empresa.com" className="btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}>
+          <button 
+            className="btn-primary inline-flex items-center gap-2 no-underline"
+            onClick={() => toast.info('Iniciando atendimento com o suporte...')}
+          >
             <MessageCircle size={18} />
             Falar com Suporte
-          </a>
-          <a href="https://react.dev" target="_blank" rel="noopener noreferrer" className="btn-secondary" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}>
+          </button>
+          <button 
+            className="btn-secondary inline-flex items-center gap-2 no-underline"
+            onClick={() => toast.info('Redirecionando para a documentação oficial...')}
+          >
             <BookOpen size={18} />
             Ver Documentação
-          </a>
+          </button>
         </nav>
       </section>
     </main>

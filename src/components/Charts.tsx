@@ -207,14 +207,14 @@ export const ClientsChart = memo(function ClientsChart() {
           <p className="chart-card-subtitle">Distribuição por tipo</p>
         </div>
       </div>
-      <div className="chart-wrapper" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ width: '260px', height: '260px', position: 'relative' }}>
+      <div className="chart-wrapper flex items-center justify-center">
+        <div className="w-260 h-260 relative">
           <Doughnut data={data} options={options as any} />
           <div
             className="doughnut-center-label"
             aria-hidden="true"  >
-            <div style={{ fontSize: '28px', fontWeight: 800, color: 'var(--color-text-primary)', letterSpacing: '-0.03em' }}>921</div>
-            <div style={{ fontSize: '12px', color: 'var(--color-text-muted)', fontWeight: 500 }}>Total</div>
+            <div className="text-2xl font-extrabold text-primary tracking-tight">921</div>
+            <div className="text-xs text-muted font-medium">Total</div>
           </div>
         </div>
       </div>

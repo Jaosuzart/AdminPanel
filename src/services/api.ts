@@ -1,6 +1,8 @@
+import { LoginResponse, Verify2FAResponse, Generate2FAResponse } from '../types/api';
+
 export const API_URL = import.meta.env.VITE_API_URL || '';
 
-export async function apiLogin(email: string, password: string) {
+export async function apiLogin(email: string, password: string): Promise<LoginResponse> {
   const response = await fetch(`${API_URL}/api/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -20,10 +22,10 @@ export async function apiLogin(email: string, password: string) {
     throw new Error(data.error || 'Erro ao realizar login.');
   }
 
-  return data;
+  return data as LoginResponse;
 }
 
-export async function apiVerify2FA(code: string, tempToken: string) {
+export async function apiVerify2FA(code: string, tempToken: string): Promise<Verify2FAResponse> {
   const response = await fetch(`${API_URL}/api/verify-2fa`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -36,10 +38,10 @@ export async function apiVerify2FA(code: string, tempToken: string) {
     throw new Error(data.error || 'Erro ao validar codigo.');
   }
 
-  return data;
+  return data as Verify2FAResponse;
 }
 
-export async function apiGenerate2FA(email: string) {
+export async function apiGenerate2FA(email: string): Promise<Generate2FAResponse> {
   const response = await fetch(`${API_URL}/api/generate-2fa`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -49,6 +51,20 @@ export async function apiGenerate2FA(email: string) {
   const data = await response.json();
   if (!response.ok) {
     throw new Error(data.error || 'Erro ao gerar QR Code.');
+  }
+  return data as Generate2FAResponse;
+}
+
+export async function apiUpdatePassword(email: string, currentPassword: string, newPassword: string): Promise<{success: boolean; message: string}> {
+  const response = await fetch(`${API_URL}/api/update-password`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, currentPassword, newPassword })
+  });
+
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.error || 'Erro ao atualizar a senha.');
   }
   return data;
 }

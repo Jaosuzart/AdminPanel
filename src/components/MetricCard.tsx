@@ -1,8 +1,9 @@
 import { memo, type CSSProperties } from 'react';
-import { TrendingUp, TrendingDown, type LucideIcon } from 'lucide-react';
+import { GraphUp as TrendingUp, GraphDown as TrendingDown } from 'react-bootstrap-icons';
+import type { ComponentType } from 'react';
 
 interface MetricCardProps {
-  icon: LucideIcon;
+  icon: ComponentType<any>;
   label: string;
   value: string;
   trend: string;
@@ -12,10 +13,10 @@ interface MetricCardProps {
 }
 
 const colorMap: Record<string, { bg: string; fg: string }> = {
-  indigo: { bg: 'rgba(129, 140, 248, 0.12)', fg: '#818cf8' },
-  emerald: { bg: 'rgba(52, 211, 153, 0.12)', fg: '#34d399' },
-  amber: { bg: 'rgba(251, 191, 36, 0.12)', fg: '#fbbf24' },
-  rose: { bg: 'rgba(251, 113, 133, 0.12)', fg: '#fb7185' },
+  indigo: { bg: 'var(--metric-indigo-bg)', fg: 'var(--metric-indigo-fg)' },
+  emerald: { bg: 'var(--metric-emerald-bg)', fg: 'var(--metric-emerald-fg)' },
+  amber: { bg: 'var(--metric-amber-bg)', fg: 'var(--metric-amber-fg)' },
+  rose: { bg: 'var(--metric-rose-bg)', fg: 'var(--metric-rose-fg)' },
 };
 
 const MetricCard = memo(function MetricCard({ icon: Icon, label, value, trend, trendDirection = 'up', color, delay = 0 }: MetricCardProps) {

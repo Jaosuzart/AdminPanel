@@ -1,8 +1,19 @@
-import { DollarSign, ShoppingCart, Users, TrendingUp } from 'lucide-react';
+import { lazy, Suspense } from 'react';
+import { CurrencyDollar as DollarSign, Cart as ShoppingCart, People as Users, GraphUp as TrendingUp, HandIndexThumb as Hand } from 'react-bootstrap-icons';
 import MetricCard from './MetricCard';
-import { SalesChart, ClientsChart } from './Charts';
 import RecentSales from './RecentSales';
 import ClientsTable from './ClientsTable';
+
+const SalesChart = lazy(() => import('./Charts').then(m => ({ default: m.SalesChart })));
+const ClientsChart = lazy(() => import('./Charts').then(m => ({ default: m.ClientsChart })));
+
+function ChartSkeleton() {
+  return (
+    <div className="chart-card" role="status" aria-label="Carregando gráfico">
+      <div className="skeleton-card" style={{ height: '340px', border: 'none' }} />
+    </div>
+  );
+}
 
 const metrics = [
   {
@@ -40,10 +51,10 @@ const metrics = [
 ];
 export default function Dashboard() {
   return (
-    <main className="animate-in">
+    <div className="animate-in">
 
       <header className="dashboard-greeting">
-        <h1>Bom dia, João 👋</h1>
+        <h1 className="flex items-center gap-2">Bom dia, João <Hand size={28} /></h1>
         <p>Aqui está um resumo do desempenho do seu negócio hoje.</p>
       </header>
       <section className="metrics-grid" role="region" aria-label="Métricas principais">
@@ -52,13 +63,17 @@ export default function Dashboard() {
         ))}
       </section>
       <section className="charts-grid" role="region" aria-label="Gráficos de desempenho">
-        <SalesChart />
-        <ClientsChart />
+        <Suspense fallback={<ChartSkeleton />}>
+          <SalesChart />
+        </Suspense>
+        <Suspense fallback={<ChartSkeleton />}>
+          <ClientsChart />
+        </Suspense>
       </section>
       <section className="bottom-grid" role="region" aria-label="Tabelas de dados">
         <RecentSales />
         <ClientsTable />
       </section>
-    </main>
+    </div>
   );
 }
