@@ -1,6 +1,6 @@
 <p align="center">
   <br>
-  <img src="https://raw.githubusercontent.com/Jaosuzart/AdminPanel/main/src/assets/admin_panel_logo.jpg" alt="Logo do AdminPanel" width="120" />
+  <img src="./src/assets/new_admin_logo.webp" alt="Logo do AdminPanel" width="120" />
   <h1 align="center">AdminPanel Enterprise 🚀</h1>
   <p align="center">
     Um Dashboard Administrativo completo, moderno e responsivo, desenvolvido com foco em performance, acessibilidade (WCAG AA) e design premium (UI/UX).
@@ -22,7 +22,7 @@
 > **Nota:** Para exibir sua imagem aqui, certifique-se de salvar o print como `screenshot.png` na raiz do projeto e enviar para o GitHub.
 
 <p align="center">
-  <img src="./screenshot.png" alt="Dashboard Preview" width="100%" />
+  <img src="./src/print do admin panel.png" alt="Dashboard Preview" width="100%" />
 </p>
 
 ---
@@ -51,7 +51,13 @@ cd AdminPanel
 npm install
 ```
 
-3. **Inicie os servidores (Frontend + Backend) simultaneamente:**
+3. **Configure as Variáveis de Ambiente:**
+Crie uma cópia do arquivo `.env.example` renomeando-o para `.env` e preencha as variáveis, se necessário:
+```bash
+cp .env.example .env
+```
+
+4. **Inicie os servidores (Frontend + Backend) simultaneamente:**
 ```bash
 npm run dev
 ```
